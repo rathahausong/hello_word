@@ -3,8 +3,8 @@ package jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class IConnection {
-	private IConnection(){return;}
+public class ConnectionHandler {
+	private ConnectionHandler(){return;}
 	public static Connection con = null;
 	public static Connection CONNECTION() throws Exception{
 		Class.forName("org.postgresql.Driver");
