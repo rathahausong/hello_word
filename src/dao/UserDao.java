@@ -1,8 +1,11 @@
 package dao;
 
-import java.beans.Statement;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import dto.User;
@@ -39,8 +42,32 @@ public class UserDao implements IDatabase {
 
 	@Override
 	public ArrayList<Object> selectRecord() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		@SuppressWarnings("unused")
+		ResultSetMetaData rsd = null;
+		ArrayList<Object> users = new ArrayList<>();
+		try{
+			
+			con = IConnection.CONNECTION();
+			st = (Statement) con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.FETCH_FORWARD);
+			String query ="select *from tbuser order by id ASC";
+			rs = st.executeQuery(query);
+			rsd = rs.getMetaData();
+			while(rs.next()){
+				
+				User user = new User();
+				user.setId(rs.getInt("id"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				users.add(user);
+				
+			}
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+		return users;
 	}
 
 	@Override

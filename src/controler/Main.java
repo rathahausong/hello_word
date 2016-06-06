@@ -1,20 +1,24 @@
 package controler;
+import java.util.ArrayList;
+
 import dao.UserDao;
 import dto.User;
 public class Main {
 	public static void main(String[] args) {
 		User u = new User();
-		u.setId(1);
-		u.setUsername("sim ratha");
+		u.setId(2);
+		u.setUsername("lim chhunly");
 		u.setPassword("123456");
 		try {
-			if(new UserDao().insertRow(u)){
-				System.out.println("insert is complet !");
-			}else{
-				System.out.println("can not insert !");
+			
+			ArrayList<Object> users =  new UserDao().selectRecord();
+			for(Object u1 : users){
+				User uu = (User)u1;
+				System.out.println(uu.getId()+"  "+uu.getUsername()+"   "+uu.getPassword());
+				System.out.println("==========================");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 }
